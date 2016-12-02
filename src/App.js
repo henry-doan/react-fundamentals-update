@@ -2,37 +2,39 @@ import React from 'react';
 
 class App extends React.Component {
   render(){
-    // the right way to render something
-    // best practice way
-    return (
-      <div>
-        <h1>Hello World!</h1>
-        <b>Bold</b>
-      </div>
-    )
-
-    /* 
-      the reason why just this doesn't work
-      
-        return <h1>Hello world!</h1> <br/>
-
-      is because its is trying to do:
-
-        return React.createElement('', , ) React.createElement('', , )
-      one after the other, which is invaid.
-
-    */
-
     /*
-      another way to write the above and works just fine is:
-
-      return <div>
-          <h1>Hello World!</h1>
-          <b>Bold</b>
-        </div>
-
+      to access props
+      - by interpolating
+      - with this.props and the name of the prop
     */
+    let txt = this.props.txt
+    return <h1>{txt}</h1>
   }
+}
+
+/*
+  we can defined the properties we are going to be looking for
+  in our component by adding a property to our component called 
+  PropTypes
+
+  this is going to be an object which keys and values
+  the keys is the name of the property
+  and the values is the type of the value we are looking for.
+
+*/
+
+App.propTypes = {
+  txt: React.PropTypes.string,
+  cat: React.PropTypes.number.isRequired
+}
+
+/*
+  set default proptypes
+
+*/
+
+App.defaultProps = {
+  txt: "this is the default props"
 }
 
 export default App

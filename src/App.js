@@ -1,83 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class App extends React.Component {
   constructor(){
     super();
-    this.state = {a: ''}
+    this.state = {val: 0}
     this.update = this.update.bind(this)
   }
 
   update(e){
-    /* 
-      when we don't use refs, this will update both
-      the a and b at the same time which is what we
-      don't want.
-
-        this.setState({a: e.target.value})
-        this.setState({b: e.target.value})
-    */
-    this.setState({
-      /* 
-        this only works since the other component has one node in the return
-        but if we wrap it in a div or have it with other node, it would then 
-        reference the this to the div and not the values we want.
-
-        in order to fix this problem:
-          a: this.a.refs.input.value
-        we should be more clean on the targeting.
-      */
-      a: ReactDOM.findDOMNode(this.a).value,
-      b: this.refs.b.value
-    })
+    //increment by 1
+    this.setState({val: this.state.val + 1})
   }
 
   render(){
-    return (
-      <div>
-        <Input
-          /* ref  attribut or prop can also 
-            take a call back.
-
-            ref={ node => this.a = node }
-            type="text"
-            onChange={this.update.bind(this)}
-            /> {this.state.a}
-          */
-
-          ref={ component => this.a = component }
-          update={this.update.bind(this)}
-          /> {this.state.a}
-        <hr />
-        <input
-          ref="b"
-          type="text"
-          onChange={this.update.bind(this)}
-          /> {this.state.b}
-      </div>
-    )
+    console.log('render');
+    return <button onClick={this.update}>{this.state.val}</button>
   }
 }
 
 /*
-  refs is a reference to a node, or an instance of a component
-  in our application.
+  Mounting  
+    - When a component is added to the DOM
+  UnMounting
+    - When a component is removed from the DOM
 
-  we can also use references an instance of another component
+  There are a handfull of lifecycle methods we can
+  access at various stages of the state
 */
 
-class Input extends React.Component {
-  render() {
-    return <input type="text" onChange={this.props.update}/>
-    /*
-      (
-        <div>
-          <input ref="input" type="text" onChange={this.props.update}/>
-        </div>
-      )
-    */
-  }
-}
+
 
 export default App
 

@@ -4,91 +4,76 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   constructor(){
     super();
-    this.state = {val: 0}
+    this.state = {increasing: false}
     this.update = this.update.bind(this)
   }
 
   update(e){
-    //increment by 1
-    this.setState({val: this.state.val + 1})
+    ReactDOM.render(<App val={this.props.val + 1}/>, document.getElementById('root'))
   }
 
-  /* 
-    This allows us to set the state or intercept the
-    state before it actually rendered.
+  /*
+    componentWillReceiveProps
+      - the first updating lifecycle methods we can look at is component will receive
+      props. New properites are coming in and can access the props with the variable 
+      next props.
+
+      - This gives us an opportunity to update state by reacting to a prop transition
+      before the render call is made
+
+    We are going to set our state of increasing to next props.val is greater than this
+    props.val.
   */
 
-  componentWillMount(){
-    console.log('componentWillMount')
-    this.setState({m: 2})
-  } 
+  componentWillReceiveProps(nextProps){
+    this.setState({increasing: nextProps.val > this.props.val})
+  }
 
+  /*
+    shouldComponentUpdate
+      - Allows us to set conditions on when we should update a component so that we are
+      not rendering over and over again.
+
+      - This does not prevent our state, and the props to be updated. it just prevent a
+      rerender.
+  */
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextProps.val % 5 === 0;
+  }
 
   render(){
-    console.log('render');
+    console.log(this.state.increasing);
     return <button onClick={this.update}>
-      {this.state.val * this.state.m}
+      {this.props.val}
     </button>
   }
 
   /*
-    We have access to our component in the DOM
-    When it is mounted, it shows the node,
-    and incrament the interval
+    componentDidUpdate
+      - This lets us react to the componenet updating.
 
+      - This, in this case takes in our previous props and 
+      previous state.
+
+      - With this we can see that the state is being updated and
+      our props are being updated as well
   */
 
-  componentDidMount() {
-    console.log('componentDidMount')
-    console.log(ReactDOM.findDOMNode(this))
-    this.inc = setInterval(this.update, 500)
-  }
+  componentDidUpdate(prevProps, PrevState) {
+    console.log(`prevProps: ${prevProps.val}`)
+}
 
-  /*
-    This will stop the incrementation when the
-    component is unMounted.
-  */
-
-  componentWillUnmount(){
-    console.log('componentWillUnmount')
-    clearInterval(this.inc)
-  }
 }
 
 /*
-  Mounting  
-    - When a component is added to the DOM
-  UnMounting
-    - When a component is removed from the DOM
-
-  There are a hand full of life-cycle methods we can
-  access at various stages of the state
+  default props to have a value of 0
 */
 
-/*
-  This component below will toggle between mount and unMount.
-*/
-
-class Wrapper extends React.Component {
-  mount(){
-    ReactDOM.render(<App />, document.getElementById('a'))
-  }
-
-  unmount(){
-    ReactDOM.unmountComponentAtNode(document.getElementById('a'))
-  }
-
-  render(){
-    return (
-      <div>
-        <button onClick={this.mount.bind(this)}>Mount</button>
-        <button onClick={this.unmount.bind(this)}>UnMount</button>
-        <div id="a"></div>
-      </div>
-    )
-  }
+App.defaultProps = {
+  val: 0
 }
 
 
-export default Wrapper
+export default App
 

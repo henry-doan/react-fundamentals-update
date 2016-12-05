@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   constructor(){
     super();
-    this.state = {increasing: false}
-    this.update = this.update.bind(this)
+    this.state = {increasing: false};
+    this.update = this.update.bind(this);
   }
 
   update(e){
@@ -61,7 +61,7 @@ class App extends React.Component {
   */
 
   componentDidUpdate(prevProps, PrevState) {
-    console.log(`prevProps: ${prevProps.val}`)
+    console.log(`prevProps: ${prevProps.val}`);
 }
 
 }

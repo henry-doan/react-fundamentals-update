@@ -68,6 +68,7 @@ class App extends React.Component {
 
 /*
   default props to have a value of 0
+  
 */
 
 App.defaultProps = {

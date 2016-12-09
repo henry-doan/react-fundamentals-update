@@ -57,7 +57,7 @@ class App extends React.Component {
       previous state.
 
       - With this we can see that the state is being updated and
-      our props are being updated as well
+      our props are being updated as well.
   */
 
   componentDidUpdate(prevProps, PrevState) {
